@@ -1,0 +1,154 @@
+/* ===================================================
+   EDULITE MOBILE — Global Styles
+=================================================== */
+@import './variables.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Safe area helpers */
+.safe-top { padding-top: var(--safe-area-top); }
+.safe-bottom { padding-bottom: var(--safe-area-bottom); }
+
+/* Scroll behavior */
+ion-content {
+  --background: var(--color-background);
+}
+
+/* Card base */
+.app-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* Typography utilities */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+/* Skeleton animation */
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    to right,
+    #F1F5F9 8%,
+    #E2E8F0 18%,
+    #F1F5F9 33%
+  );
+  background-size: 800px 104px;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* Press feedback */
+.pressable {
+  cursor: pointer;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+.pressable:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: var(--space-sm) 0;
+}
+
+/* Page padding */
+.page-padding {
+  padding: var(--space-md);
+}
+
+/* Ionic component resets */
+ion-header ion-toolbar {
+  --background: var(--color-primary);
+  --color: #fff;
+}
+
+ion-tab-bar {
+  --background: var(--color-surface);
+  --border: 1px solid var(--color-border);
+}
+
+ion-tab-button {
+  --color: var(--color-text-tertiary);
+  --color-selected: var(--color-primary);
+}
+
+ion-button {
+  --border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.01em;
+}
+
+ion-searchbar {
+  --background: var(--color-surface);
+  --border-radius: var(--radius-sm);
+  --box-shadow: var(--shadow-xs);
+  --placeholder-color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+ion-item {
+  --background: var(--color-surface);
+  --border-color: var(--color-border);
+  --color: var(--color-text-primary);
+}
+
+ion-label {
+  font-size: var(--font-size-base) !important;
+}
+
+ion-refresher {
+  --color: var(--color-primary);
+}
+
+/* Chip/Badge resets */
+ion-chip {
+  --background: var(--color-primary-subtle);
+  --color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  height: 24px;
+}
+
+/* Floating action button */
+ion-fab-button {
+  --background: var(--color-primary);
+  --background-activated: var(--color-primary-dark);
+  --box-shadow: var(--shadow-primary);
+}
+
+/* Toast */
+ion-toast {
+  --border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
