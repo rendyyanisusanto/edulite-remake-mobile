@@ -43,18 +43,24 @@
       <div class="quick-menu-section">
         <h3 class="section-title">Akses Cepat</h3>
         <div class="quick-menu-grid">
-          <button class="qm-btn" @click="router.push('/app/attendance/history')">
-            <div class="qm-icon"><ion-icon name="time" /></div>
-            <span class="qm-label">Riwayat</span>
-          </button>
-          <button class="qm-btn" @click="router.push('/app/attendance/requests')">
-            <div class="qm-icon"><ion-icon name="document-text" /></div>
-            <span class="qm-label">Pengajuan</span>
-          </button>
-          <button class="qm-btn" @click="router.push('/app/attendance/requests/new')">
-            <div class="qm-icon"><ion-icon name="add-circle" /></div>
-            <span class="qm-label">Buat Request</span>
-          </button>
+          <AppMenuCard
+            title="Riwayat"
+            icon="time"
+            color="var(--color-primary)"
+            @click="router.push('/app/attendance/history')"
+          />
+          <AppMenuCard
+            title="Pengajuan"
+            icon="document-text"
+            color="var(--color-secondary)"
+            @click="router.push('/app/attendance/requests')"
+          />
+          <AppMenuCard
+            title="Buat Request"
+            icon="add-circle"
+            color="var(--color-success)"
+            @click="router.push('/app/attendance/requests/new')"
+          />
         </div>
       </div>
     </ion-content>
@@ -69,6 +75,7 @@ import AppPageHeader from '@/components/common/AppPageHeader.vue'
 import AttendanceStatusCard from '@/components/attendance/AttendanceStatusCard.vue'
 import LocationStatusCard from '@/components/attendance/LocationStatusCard.vue'
 import ClockActionCard from '@/components/attendance/ClockActionCard.vue'
+import AppMenuCard from '@/components/cards/AppMenuCard.vue'
 
 import { useAttendanceStore } from '@/store/attendance.store'
 import { useCurrentLocation } from '@/composables/useCurrentLocation'
@@ -242,42 +249,8 @@ const handleClockAction = async () => {
 .quick-menu-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-sm);
-}
-
-.qm-btn {
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  padding: var(--space-md) var(--space-sm);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-sm);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.qm-btn:active {
-  transform: scale(0.96);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.02);
-}
-
-.qm-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary-subtle);
-  color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
-.qm-label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  text-align: center;
+  gap: 16px;
+  align-items: start;
+  padding-bottom: 24px;
 }
 </style>

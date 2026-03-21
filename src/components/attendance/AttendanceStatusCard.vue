@@ -1,22 +1,30 @@
 <template>
   <div class="attendance-status-card">
-    <div class="status-header">
-      <div class="status-title">Status Hari Ini</div>
-      <AppStatusBadge :status="mappedStatus" :label="mappedLabel" />
+    <div class="card-header">
+      <div class="header-left">
+        <AppStatusBadge :status="mappedStatus" :label="mappedLabel" />
+      </div>
+      <div v-if="durationMinutes > 0" class="duration-badge">
+        <ion-icon name="time-outline" />
+        <span>{{ durationText }}</span>
+      </div>
     </div>
-
-    <div class="status-grid">
-      <div class="status-item">
-        <span class="label">Clock In</span>
-        <span class="value" :class="{ 'has-value': inTime }">{{ inTime || '--:--' }}</span>
+    
+    <div class="card-body">
+      <div class="clock-item" :class="{ 'is-completed': inTime }">
+        <div class="clock-icon"><ion-icon name="log-in-outline" /></div>
+        <div class="clock-info">
+          <span class="clock-label">Clock In</span>
+          <span class="clock-time">{{ inTime || '--:--' }}</span>
+        </div>
       </div>
-      <div class="status-item">
-        <span class="label">Clock Out</span>
-        <span class="value" :class="{ 'has-value': outTime }">{{ outTime || '--:--' }}</span>
-      </div>
-      <div class="status-item">
-        <span class="label">Durasi Kerja</span>
-        <span class="value highlight">{{ durationText }}</span>
+      
+      <div class="clock-item" :class="{ 'is-completed': outTime }">
+        <div class="clock-icon"><ion-icon name="log-out-outline" /></div>
+        <div class="clock-info">
+          <span class="clock-label">Clock Out</span>
+          <span class="clock-time">{{ outTime || '--:--' }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -24,6 +32,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { IonIcon } from '@ionic/vue'
 import AppStatusBadge from '@/components/common/AppStatusBadge.vue'
 
 const props = defineProps({
@@ -79,56 +88,99 @@ const mappedLabel = computed(() => {
 <style scoped>
 .attendance-status-card {
   background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--space-md);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: var(--space-md);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: var(--space-lg);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.status-header {
+.card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-md);
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--color-border);
 }
 
-.status-title {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-secondary);
+.duration-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+  padding: 6px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
 }
 
-.status-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-sm);
+.duration-badge ion-icon {
+  font-size: 16px;
 }
 
-.status-item {
+.card-body {
+  display: flex;
+  gap: 12px;
+}
+
+.clock-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border-left: 4px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.clock-item.is-completed {
+  border-left-color: var(--color-success);
+  background: var(--color-success-subtle);
+}
+
+.clock-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-tertiary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.clock-item.is-completed .clock-icon {
+  color: var(--color-success);
+}
+
+.clock-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 4px;
+  gap: 2px;
 }
 
-.label {
-  font-size: 11px;
-  font-weight: var(--font-weight-semibold);
+.clock-label {
+  font-size: 10px;
+  font-weight: 800;
   color: var(--color-text-tertiary);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.value {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-secondary);
+.clock-item.is-completed .clock-label {
+  color: var(--color-success);
+  opacity: 0.8;
 }
 
-.value.has-value, .value.highlight {
+.clock-time {
+  font-size: 16px;
+  font-weight: 800;
   color: var(--color-text-primary);
 }
 </style>
