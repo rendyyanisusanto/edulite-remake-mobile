@@ -2,100 +2,122 @@
   <ion-page>
     <AppPageHeader title="Buat Pengajuan" :showBack="true" />
 
-    <ion-content :fullscreen="true" class="bg-gray-50">
-      <div class="p-4 safe-bottom">
-        <div class="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+    <ion-content :fullscreen="true" class="ion-padding bg-gray-50">
+      <div class="safe-bottom">
+        
+        <div class="page-title-section mb-5">
+          <h2 class="text-xl font-bold text-gray-800">Formulir Pengajuan</h2>
+          <p class="text-sm text-gray-500 mt-1">Lengkapi data di bawah untuk pengajuan absensi.</p>
+        </div>
+
+        <form @submit.prevent="submitForm" class="form-container">
           
-          <form @submit.prevent="submitForm" class="flex flex-col gap-4">
-            
-            <!-- Attendance Date -->
+          <!-- Card 1: Informasi Dasar -->
+          <div class="form-card">
+            <h3 class="form-card__title">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              Informasi Dasar
+            </h3>
+
             <div class="form-group">
-              <label class="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Tanggal Presensi</label>
+              <label class="form-label">Tanggal Presensi</label>
               <input 
                 type="date" 
                 v-model="form.attendance_date" 
                 required
-                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-semibold text-gray-800 focus:ring-2 focus:ring-primary/20 outline-none transition-shadow"
+                class="form-input"
               />
             </div>
 
-            <!-- Request Type -->
             <div class="form-group">
-              <label class="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Tipe Pengajuan</label>
-              <select 
-                v-model="form.request_type" 
-                required
-                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-semibold text-gray-800 focus:ring-2 focus:ring-primary/20 outline-none transition-shadow appearance-none"
-              >
-                <option value="" disabled>Pilih Tipe</option>
-                <option value="FORGOT_CLOCK_IN">Lupa Clock In</option>
-                <option value="FORGOT_CLOCK_OUT">Lupa Clock Out</option>
-                <option value="MISSED_BOTH">Lupa Absen Keduanya</option>
-                <option value="LOCATION_EXCEPTION">Kendala Lokasi / Error GPS</option>
-                <option value="TIME_CORRECTION">Koreksi Waktu</option>
-              </select>
+              <label class="form-label">Tipe Pengajuan</label>
+              <div class="select-wrapper">
+                <select 
+                  v-model="form.request_type" 
+                  required
+                  class="form-input form-select"
+                >
+                  <option value="" disabled>Pilih Tipe</option>
+                  <option value="FORGOT_CLOCK_IN">Lupa Clock In</option>
+                  <option value="FORGOT_CLOCK_OUT">Lupa Clock Out</option>
+                  <option value="MISSED_BOTH">Lupa Absen Keduanya</option>
+                  <option value="LOCATION_EXCEPTION">Kendala Lokasi / Error GPS</option>
+                  <option value="TIME_CORRECTION">Koreksi Waktu</option>
+                </select>
+                <ion-icon name="chevron-down-outline" class="select-icon"></ion-icon>
+              </div>
             </div>
+          </div>
 
-            <!-- Conditional Time Inputs based on Type -->
-            <div v-if="needsClockInTime" class="form-group border-l-2 border-primary pl-3 bg-primary/5 p-3 rounded-r-xl">
-              <label class="block text-xs font-bold text-primary mb-1.5 uppercase tracking-wide">Waktu Clock In</label>
+          <!-- Card 2: Detail Waktu (Conditional) -->
+          <div v-if="needsClockInTime || needsClockOutTime" class="form-card form-card--highlight">
+            <h3 class="form-card__title text-primary">
+              <ion-icon name="time-outline"></ion-icon>
+              Detail Waktu
+            </h3>
+
+            <div v-if="needsClockInTime" class="form-group conditional-group">
+              <label class="form-label text-primary">Waktu Clock In Seharusnya</label>
               <input 
                 type="datetime-local" 
                 v-model="form.requested_clock_in_at" 
                 required
-                class="w-full bg-white border border-primary/20 rounded-lg px-4 py-2.5 text-sm font-semibold text-gray-800 focus:ring-2 focus:ring-primary/30 outline-none"
+                class="form-input"
               />
               <input 
-                v-if="needsClockInTime"
                 type="text" 
                 v-model="form.requested_clock_in_note"
                 placeholder="Catatan tambahan (opsional)"
-                class="w-full mt-2 bg-white border border-primary/20 rounded-lg px-4 py-2 text-sm text-gray-800 outline-none"
+                class="form-input form-input--muted mt-2"
               />
             </div>
 
-            <div v-if="needsClockOutTime" class="form-group border-l-2 border-danger pl-3 bg-danger/5 p-3 rounded-r-xl">
-              <label class="block text-xs font-bold text-danger mb-1.5 uppercase tracking-wide">Waktu Clock Out</label>
+            <div v-if="needsClockOutTime" class="form-group conditional-group">
+              <label class="form-label text-danger">Waktu Clock Out Seharusnya</label>
               <input 
                 type="datetime-local" 
                 v-model="form.requested_clock_out_at" 
                 required
-                class="w-full bg-white border border-danger/20 rounded-lg px-4 py-2.5 text-sm font-semibold text-gray-800 focus:ring-2 focus:ring-danger/30 outline-none"
+                class="form-input input-danger"
               />
               <input 
-                v-if="needsClockOutTime"
                 type="text" 
                 v-model="form.requested_clock_out_note"
                 placeholder="Catatan tambahan (opsional)"
-                class="w-full mt-2 bg-white border border-danger/20 rounded-lg px-4 py-2 text-sm text-gray-800 outline-none"
+                class="form-input form-input--muted mt-2"
               />
             </div>
+          </div>
 
-            <!-- Reason -->
-            <div class="form-group mt-2">
-              <label class="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Alasan Detail</label>
+          <!-- Card 3: Alasan Pengajuan -->
+          <div class="form-card">
+            <h3 class="form-card__title">
+              <ion-icon name="document-text-outline"></ion-icon>
+              Alasan Pengajuan
+            </h3>
+            <div class="form-group">
               <textarea 
                 v-model="form.reason" 
                 required
                 rows="4"
                 placeholder="Jelaskan secara detail alasan pengajuan ini..."
-                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-semibold text-gray-800 focus:ring-2 focus:ring-primary/20 outline-none resize-none transition-shadow"
+                class="form-input form-textarea"
               ></textarea>
             </div>
+          </div>
 
-            <!-- Submit Button -->
-            <button 
-              type="submit" 
-              :disabled="loading"
-              class="mt-6 w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold font-lg shadow-md transition-transform"
-              :class="loading ? 'opacity-70 pointer-events-none' : 'active:scale-95'"
-            >
-              <ion-spinner v-if="loading" name="crescent" color="light" class="w-5 h-5" />
-              <span v-else>Kirim Pengajuan</span>
-            </button>
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            :disabled="loading"
+            class="submit-btn"
+            :class="{ 'submit-btn--loading': loading }"
+          >
+            <ion-spinner v-if="loading" name="crescent" color="light" class="spinner-sm" />
+            <span v-else>Kirim Pengajuan</span>
+          </button>
 
-          </form>
-        </div>
+        </form>
       </div>
     </ion-content>
   </ion-page>
@@ -104,7 +126,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { IonPage, IonContent, IonSpinner, toastController } from '@ionic/vue'
+import { IonPage, IonContent, IonSpinner, IonIcon, toastController } from '@ionic/vue'
 import AppPageHeader from '@/components/common/AppPageHeader.vue'
 import attendanceService from '@/services/api/attendance.service'
 
@@ -137,7 +159,8 @@ const showToast = async (msg, color = 'success') => {
     message: msg,
     duration: 3000,
     color,
-    position: 'top'
+    position: 'top',
+    cssClass: 'custom-toast'
   })
   return t.present()
 }
@@ -171,9 +194,169 @@ const submitForm = async () => {
 
 <style scoped>
 .bg-gray-50 {
-  --background: #f9fafb;
+  --background: var(--color-background);
 }
+
 .safe-bottom {
-  padding-bottom: calc(20px + var(--ion-safe-area-bottom, 0));
+  padding-bottom: calc(30px + var(--ion-safe-area-bottom, 0));
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl); /* Increased gap between cards */
+}
+
+/* Card Styling */
+.form-card {
+  background: var(--color-surface);
+  border-radius: 20px; /* softer, less kaku */
+  padding: 24px; /* more breathing room inside card */
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* softer, wider shadow */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg); /* more space between inputs */
+}
+
+.form-card--highlight {
+  background: var(--color-primary-subtle);
+  border-color: rgba(var(--ion-color-primary-rgb), 0.08);
+  box-shadow: 0 4px 20px rgba(var(--ion-color-primary-rgb), 0.04);
+}
+
+.form-card__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0 0 4px 0;
+  font-size: var(--font-size-md);
+  font-weight: 800; /* Bolder for contrast */
+  color: var(--color-text-primary);
+}
+
+.form-card__title ion-icon {
+  font-size: 22px;
+  color: var(--color-primary);
+}
+
+/* Form Group & Input styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Slightly more space between label and input */
+}
+
+.form-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-secondary);
+  padding-left: 4px;
+}
+
+.form-input {
+  width: 100%;
+  background: #f8fafc; /* Softer gray background for inputs */
+  border: 1px solid transparent;
+  border-radius: 16px; /* softer input corners */
+  padding: 16px 20px; /* more padding inside input */
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 4px rgba(var(--ion-color-primary-rgb), 0.1);
+}
+
+.form-input--muted {
+  font-weight: var(--font-weight-medium);
+  padding: 10px 14px;
+}
+
+.form-textarea {
+  resize: none;
+  line-height: 1.5;
+  font-weight: var(--font-weight-medium);
+}
+
+/* Custom Select */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.form-select {
+  appearance: none;
+  padding-right: 40px;
+}
+
+.select-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+}
+
+/* Danger / Conditional Inputs */
+.input-danger:focus {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(var(--ion-color-danger-rgb), 0.1);
+}
+
+.conditional-group {
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px dashed rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+.conditional-group:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-primary);
+  color: white;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  border: none;
+  box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: var(--space-sm);
+}
+
+.submit-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+.submit-btn--loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.spinner-sm {
+  width: 24px;
+  height: 24px;
 }
 </style>

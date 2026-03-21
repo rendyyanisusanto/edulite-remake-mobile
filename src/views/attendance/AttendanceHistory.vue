@@ -7,27 +7,38 @@
         <ion-refresher-content pulling-icon="chevron-down-circle-outline" refreshing-spinner="crescent" />
       </ion-refresher>
 
-      <div class="px-4 py-3 sticky-header">
-        <label class="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Pilih Bulan</label>
-        <input 
-          type="month" 
-          v-model="filters.month" 
-          @change="fetchHistory(true)"
-          class="history-filter-input"
-        />
+      <!-- Filter Section -->
+      <div class="filter-section sticky-header">
+        <div class="filter-card">
+          <div class="filter-card__label">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Pilih Bulan</span>
+          </div>
+          <input 
+            type="month" 
+            v-model="filters.month" 
+            @change="fetchHistory(true)"
+            class="filter-card__input"
+          />
+        </div>
       </div>
 
       <div class="px-4 pb-6">
-        <div v-if="loading && items.length === 0" class="py-10 text-center text-gray-400">
-          <ion-spinner name="crescent" color="primary"></ion-spinner>
-          <p class="mt-2 text-sm">Memuat riwayat...</p>
+        <!-- Skeleton Loading -->
+        <div v-if="loading && items.length === 0" class="history-list mt-2">
+          <AppSkeletonCard v-for="i in 5" :key="'skeleton-'+i" />
         </div>
         
-        <div v-else-if="items.length === 0" class="py-10 text-center text-gray-400">
-          <ion-icon name="document-text-outline" class="text-4xl text-gray-300"></ion-icon>
-          <p class="mt-2 text-sm font-medium">Tidak ada data presensi bulan ini.</p>
+        <!-- Empty State -->
+        <div v-else-if="items.length === 0" class="empty-state">
+          <div class="empty-state__icon">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <h3 class="empty-state__title">Belum Ada Presensi</h3>
+          <p class="empty-state__desc">Tidak ada data kehadiran untuk bulan yang Anda pilih.</p>
         </div>
 
+        <!-- History List -->
         <div v-else class="history-list mt-2">
           <AttendanceHistoryCard 
             v-for="item in items" 
@@ -40,9 +51,10 @@
             @click="goToDetail(item.id)"
           />
 
-          <!-- Simple load more button -->
-          <button v-if="page < totalPages" class="load-more-btn" @click="fetchHistory()">
-            Muat Lebih Banyak
+          <!-- Load More Button -->
+          <button v-if="page < totalPages" class="btn-load-more" @click="fetchHistory()" :disabled="loading">
+            <ion-spinner v-if="loading" name="crescent" class="spinner-sm"></ion-spinner>
+            <span v-else>Muat Lebih Banyak</span>
           </button>
         </div>
       </div>
@@ -56,6 +68,7 @@ import { useRouter } from 'vue-router'
 import { IonPage, IonContent, IonRefresher, IonRefresherContent, IonSpinner, IonIcon } from '@ionic/vue'
 import AppPageHeader from '@/components/common/AppPageHeader.vue'
 import AttendanceHistoryCard from '@/components/attendance/AttendanceHistoryCard.vue'
+import AppSkeletonCard from '@/components/common/AppSkeletonCard.vue'
 import attendanceService from '@/services/api/attendance.service'
 
 const router = useRouter()
@@ -116,42 +129,136 @@ const goToDetail = (id) => {
 .bg-gray-50 {
   --background: var(--color-background);
 }
+
 .sticky-header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--color-background);
-  padding-bottom: var(--space-sm);
+  background: rgba(248, 249, 250, 0.9); /* var(--color-background) with opacity */
+  backdrop-filter: blur(10px);
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-md);
 }
+
+/* Filter Card */
+.filter-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s;
+}
+
+.filter-card:focus-within {
+  border-color: var(--color-primary);
+}
+
+.filter-card__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.filter-card__label ion-icon {
+  font-size: 18px;
+  color: var(--color-primary);
+}
+
+.filter-card__input {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  outline: none;
+  text-align: right;
+  min-width: 130px;
+}
+
+/* History List */
 .history-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
 }
-.history-filter-input {
-  width: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-xl);
+  text-align: center;
+  margin-top: var(--space-xl);
+}
+
+.empty-state__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-primary-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-lg);
+}
+
+.empty-state__icon ion-icon {
+  font-size: 40px;
+  color: var(--color-primary);
+}
+
+.empty-state__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  outline: none;
-  transition: border-color 0.2s;
+  margin: 0 0 var(--space-xs);
 }
-.history-filter-input:focus {
-  border-color: var(--color-primary);
+
+.empty-state__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
 }
-.load-more-btn {
+
+/* Load More Button */
+.btn-load-more {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--space-md);
-  margin-top: var(--space-md);
+  margin-top: var(--space-sm);
   color: var(--color-primary);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   background: var(--color-primary-subtle);
   border-radius: var(--radius-md);
   border: none;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-load-more:active {
+  transform: scale(0.98);
+}
+
+.btn-load-more:disabled {
+  opacity: 0.7;
+}
+
+.spinner-sm {
+  width: 20px;
+  height: 20px;
 }
 </style>
