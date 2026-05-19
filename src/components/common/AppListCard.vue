@@ -1,6 +1,6 @@
 <template>
   <div class="list-card pressable" @click="$emit('click')">
-    <!-- Left accent -->
+    <!-- Left accent string -->
     <div v-if="accent" class="list-card__accent" :style="{ background: accent }" />
 
     <!-- Avatar or icon -->
@@ -20,15 +20,15 @@
         <slot name="badge" />
       </div>
       <p v-if="subtitle" class="list-card__subtitle">{{ subtitle }}</p>
-      <p v-if="meta" class="list-card__meta">{{ meta }}</p>
+      <div v-if="meta" class="list-card__meta">
+        <span class="meta-pill">{{ meta }}</span>
+      </div>
     </div>
 
     <!-- Right arrow -->
-    <ion-icon
-      v-if="showArrow"
-      name="chevron-forward-outline"
-      class="list-card__arrow"
-    />
+    <div v-if="showArrow" class="list-card__arrow-wrap">
+      <ion-icon name="chevron-forward-outline" class="list-card__arrow" />
+    </div>
   </div>
 </template>
 
@@ -60,53 +60,65 @@ const avatarInitials = computed(() => {
 .list-card {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-border);
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   position: relative;
   overflow: hidden;
-  transition: transform var(--transition-fast);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.list-card:active { transform: scale(0.985); }
+.list-card:active {
+  transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
 
 .list-card__accent {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
-  border-radius: 4px 0 0 4px;
+  width: 5px;
+  border-radius: 5px 0 0 5px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
 }
 
-.list-card__lead { flex-shrink: 0; }
+.list-card__lead {
+  flex-shrink: 0;
+}
 
 .list-card__avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--color-primary-subtle);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-primary-subtle) 0%, rgba(200, 220, 255, 0.5) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  font-weight: 800;
   color: var(--color-primary);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .list-card__icon-wrap {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.4);
 }
 
 .list-card__icon-wrap ion-icon {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .list-card__body {
@@ -114,43 +126,71 @@ const avatarInitials = computed(() => {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .list-card__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-xs);
+  gap: 8px;
 }
 
 .list-card__title {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-size: 15px;
+  font-weight: 700;
   color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
 .list-card__subtitle {
   margin: 0;
-  font-size: var(--font-size-xs);
+  font-size: 13px;
   color: var(--color-text-secondary);
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .list-card__meta {
-  margin: 0;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
+  margin-top: 4px;
+}
+
+.meta-pill {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.list-card__arrow-wrap {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.list-card:active .list-card__arrow-wrap {
+  background: rgba(0,0,0,0.08); /* Darken gently on press */
 }
 
 .list-card__arrow {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
   font-size: 16px;
-  flex-shrink: 0;
+  margin-left: 2px;
 }
 </style>

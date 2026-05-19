@@ -1,6 +1,15 @@
 <template>
   <ion-page class="attendance-page">
-    <AppPageHeader title="Presensi Online" />
+    <ion-header class="ion-no-border">
+      <ion-toolbar class="modern-toolbar">
+        <ion-buttons slot="start">
+          <div class="back-btn-wrapper">
+            <ion-back-button default-href="/app/home" text=""></ion-back-button>
+          </div>
+        </ion-buttons>
+        <ion-title class="modern-title">Presensi Online</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
     <ion-content :fullscreen="true" class="ion-padding bg-gray-50">
       <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
@@ -70,7 +79,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { IonPage, IonContent, IonRefresher, IonRefresherContent, IonIcon, actionSheetController } from '@ionic/vue'
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonIcon, actionSheetController } from '@ionic/vue'
 import AppPageHeader from '@/components/common/AppPageHeader.vue'
 import AttendanceStatusCard from '@/components/attendance/AttendanceStatusCard.vue'
 import LocationStatusCard from '@/components/attendance/LocationStatusCard.vue'
@@ -215,6 +224,41 @@ const handleClockAction = async () => {
 .attendance-page {
   --background: var(--color-background);
 }
+.modern-toolbar {
+  --background: linear-gradient(135deg, var(--color-primary, #3b82f6) 0%, #1e40af 100%);
+  --min-height: 56px;
+}
+
+.back-btn-wrapper {
+  margin-left: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.back-btn-wrapper:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+}
+
+ion-back-button {
+  --color: #ffffff;
+  --icon-font-size: 20px;
+}
+
+.modern-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 .bg-gray-50 {
   --background: #f9fafb;
 }

@@ -23,10 +23,32 @@ const router = useRouter()
 const authStore = useAuthStore()
 const appStore = useAppStore()
 
-// Filter menus by user permissions — RBAC-ready
-// NOTE: Temporarily showing all menus for development since permissions might not be seeded
+// Filter menus by user permissions, with role fallback for minimal access scenarios.
 const visibleMenuItems = computed(() => {
-  return appStore.menuDefinitions
+  const perms = authStore.permissions || []
+  const roles = authStore.roles || []
+
+  return appStore.menuDefinitions.filter((item) => {
+    const requiredPermissions = Array.isArray(item.permissions)
+      ? item.permissions
+      : (item.permission ? [item.permission] : [])
+
+    const requiredRoles = Array.isArray(item.roles) ? item.roles : []
+
+    if (perms.includes('*')) return true
+
+    const hasPermission = requiredPermissions.length > 0
+      ? requiredPermissions.some((code) => perms.includes(code))
+      : false
+
+    if (hasPermission) return true
+
+    const hasRoleFallback = requiredRoles.length > 0
+      ? roles.some((role) => requiredRoles.includes(role))
+      : false
+
+    return hasRoleFallback
+  })
 })
 
 function navigateTo(route) {

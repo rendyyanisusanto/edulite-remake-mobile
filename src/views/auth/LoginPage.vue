@@ -5,10 +5,11 @@
 
         <!-- Top branding -->
         <div class="login-brand">
-          <div class="login-brand__logo">
-            <ion-icon name="school-outline" class="login-brand__icon" />
+          <div class="login-brand__logo" :class="{ 'login-brand__logo--image': appStore.schoolLogo }">
+            <img v-if="appStore.schoolLogo" :src="appStore.schoolLogo" class="login-brand__img" :alt="appStore.schoolName" />
+            <ion-icon v-else name="school-outline" class="login-brand__icon" />
           </div>
-          <h1 class="login-brand__name">Edulite</h1>
+          <h1 class="login-brand__name">{{ appStore.schoolShortName }}</h1>
           <p class="login-brand__tagline">Sistem Informasi Sekolah</p>
         </div>
 
@@ -95,9 +96,11 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { IonPage, IonContent, IonIcon, IonSpinner } from '@ionic/vue'
 import { useAuthStore } from '@/store/auth.store'
+import { useAppStore } from '@/store/app.store'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const appStore = useAppStore()
 
 const form = ref({ email: '', password: '' })
 const showPassword = ref(false)
@@ -170,8 +173,8 @@ async function handleLogin() {
 }
 
 .login-brand__logo {
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   border-radius: var(--radius-xl);
   background: var(--color-primary);
   display: flex;
@@ -179,10 +182,23 @@ async function handleLogin() {
   justify-content: center;
   box-shadow: var(--shadow-primary);
   margin-bottom: var(--space-sm);
+  overflow: hidden;
+}
+
+.login-brand__logo--image {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+}
+
+.login-brand__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
 }
 
 .login-brand__icon {
-  font-size: 36px;
+  font-size: 38px;
   color: #ffffff;
 }
 

@@ -130,32 +130,39 @@ const mappedLabel = computed(() => {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: #f8fafc;
-  padding: 12px 14px;
+  gap: 12px;
+  background: #ffffff;
+  padding: 14px 12px;
   border-radius: 16px;
-  border-left: 4px solid var(--color-border);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .clock-item.is-completed {
-  border-left-color: var(--color-success);
-  background: var(--color-success-subtle);
+  border-color: rgba(16, 185, 129, 0.2);
+  background: linear-gradient(145deg, #ffffff, #f0fdf4);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.06);
 }
 
 .clock-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-text-tertiary);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  transition: all 0.3s ease;
+}
+
+.clock-icon ion-icon {
+  font-size: 20px;
 }
 
 .clock-item.is-completed .clock-icon {
+  background: rgba(16, 185, 129, 0.1);
   color: var(--color-success);
 }
 
@@ -175,7 +182,6 @@ const mappedLabel = computed(() => {
 
 .clock-item.is-completed .clock-label {
   color: var(--color-success);
-  opacity: 0.8;
 }
 
 .clock-time {

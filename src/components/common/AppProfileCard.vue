@@ -4,7 +4,8 @@
     <div class="profile-card__content">
       <div class="profile-card__avatar">
         <div class="avatar-circle">
-          <span class="avatar-initials">{{ initials }}</span>
+          <img v-if="photo" :src="photo" class="avatar-img" :alt="name" />
+          <span v-else class="avatar-initials">{{ initials }}</span>
         </div>
       </div>
       <div class="profile-card__info">
@@ -27,6 +28,7 @@ const props = defineProps({
   name: { type: String, default: 'Pengguna' },
   role: { type: String, default: 'Guru' },
   school: { type: String, default: 'EDULITE School' },
+  photo: { type: String, default: null },
   lastLogin: { type: String, default: null }
 })
 
@@ -106,6 +108,13 @@ const greeting = computed(() => {
   justify-content: center;
   flex-shrink: 0;
   backdrop-filter: blur(4px);
+  overflow: hidden;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .avatar-initials {

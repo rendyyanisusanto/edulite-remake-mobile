@@ -16,7 +16,8 @@
       <AppProfileCard
         :name="authStore.userName"
         :role="primaryRoleLabel"
-        school="EDULITE School"
+        :photo="authStore.userPhoto"
+        :school="appStore.schoolShortName"
       />
 
       <!-- Smart Attendance Card -->
@@ -46,17 +47,20 @@ import {
   IonRefresherContent
 } from '@ionic/vue'
 import { useAuthStore } from '@/store/auth.store'
+import { useAppStore } from '@/store/app.store'
 import AppProfileCard from '@/components/common/AppProfileCard.vue'
 import DashboardAttendanceCard from '@/components/cards/DashboardAttendanceCard.vue'
 import AppMenuGrid from '@/components/cards/AppMenuGrid.vue'
 import AppSectionTitle from '@/components/common/AppSectionTitle.vue'
 
 const authStore = useAuthStore()
+const appStore = useAppStore()
 
 const ROLE_LABELS = {
   SUPERADMIN: 'Super Admin',
   ADMIN: 'Administrator',
   GURU: 'Guru',
+  PELATIH_EKSKUL: 'Pelatih Ekskul',
   SISWA: 'Siswa',
   ORTU: 'Orang Tua'
 }

@@ -23,7 +23,13 @@ import './assets/styles/global.css'
 /* Icons */
 import './utils/icons'
 
+/* Ionic PWA Elements (for Capacitor plugins like Camera on web) */
+import { defineCustomElements } from '@ionic/pwa-elements/loader'
+
 const app = createApp(App)
+
+// Initialize PWA Elements
+defineCustomElements(window)
 
 app.use(IonicVue, {
   mode: 'ios'  // Use iOS mode for consistent cross-platform look

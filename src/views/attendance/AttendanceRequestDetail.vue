@@ -1,6 +1,15 @@
 <template>
   <ion-page>
-    <AppPageHeader title="Detail Pengajuan" :showBack="true" />
+    <ion-header class="ion-no-border">
+      <ion-toolbar class="modern-toolbar">
+        <ion-buttons slot="start">
+          <div class="back-btn-wrapper">
+            <ion-back-button default-href="/app/attendance/requests" text=""></ion-back-button>
+          </div>
+        </ion-buttons>
+        <ion-title class="modern-title">Detail Pengajuan</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
     <ion-content :fullscreen="true" class="bg-gray-50">
       <div v-if="loading" class="flex flex-col items-center justify-center p-12 text-gray-400">
@@ -70,7 +79,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { IonPage, IonContent, IonSpinner, IonIcon } from '@ionic/vue'
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonSpinner, IonIcon } from '@ionic/vue'
 import AppPageHeader from '@/components/common/AppPageHeader.vue'
 import AppStatusBadge from '@/components/common/AppStatusBadge.vue'
 import attendanceService from '@/services/api/attendance.service'
@@ -128,6 +137,41 @@ const formatTime = (isoString) => {
 </script>
 
 <style scoped>
+.modern-toolbar {
+  --background: linear-gradient(135deg, var(--color-primary, #3b82f6) 0%, #1e40af 100%);
+  --min-height: 56px;
+}
+
+.back-btn-wrapper {
+  margin-left: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.back-btn-wrapper:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+}
+
+ion-back-button {
+  --color: #ffffff;
+  --icon-font-size: 20px;
+}
+
+.modern-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 .bg-gray-50 {
   --background: var(--color-background);
 }

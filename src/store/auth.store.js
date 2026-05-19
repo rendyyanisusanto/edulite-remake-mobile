@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value && !!user.value)
   const userName = computed(() => user.value?.name || '')
   const userEmail = computed(() => user.value?.email || '')
+  const userPhoto = computed(() => user.value?.photo || null)
   const userRoles = computed(() => roles.value)
   const hasPermission = computed(() => (code) => {
     if (permissions.value.includes('*')) return true
@@ -80,7 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     user, roles, permissions, token, loading, error,
-    isAuthenticated, userName, userEmail, userRoles,
+    isAuthenticated, userName, userEmail, userPhoto, userRoles,
     hasPermission, primaryRole,
     login, logout, fetchProfile, clearAuth, restoreSession, setAuth
   }

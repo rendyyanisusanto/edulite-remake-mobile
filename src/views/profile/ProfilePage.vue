@@ -85,6 +85,7 @@ const ROLE_LABELS = {
   SUPERADMIN: 'Super Admin',
   ADMIN: 'Administrator',
   GURU: 'Guru',
+  PELATIH_EKSKUL: 'Pelatih Ekskul',
   SISWA: 'Siswa',
   ORTU: 'Orang Tua'
 }

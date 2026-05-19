@@ -75,8 +75,8 @@ async function confirmLogout() {
 .app-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background: var(--color-background);
 }
 
@@ -89,11 +89,12 @@ async function confirmLogout() {
 .app-bottom-nav {
   display: flex;
   background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
+  border-top: none;
   padding-bottom: var(--safe-area-bottom);
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08); /* Softer, larger shadow */
   z-index: 50;
-  height: calc(56px + var(--safe-area-bottom));
+  height: calc(72px + var(--safe-area-bottom)); /* Increased height */
+  border-radius: 28px 28px 0 0; /* Rounded top corners to avoid stiffness */
 }
 
 .nav-btn {
@@ -102,12 +103,12 @@ async function confirmLogout() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 6px; /* Slightly more gap */
   background: transparent;
   border: none;
   cursor: pointer;
   color: var(--color-text-tertiary);
-  padding: 8px 0;
+  padding: 10px 0;
   transition: color var(--transition-fast);
 }
 
@@ -116,9 +117,9 @@ async function confirmLogout() {
 }
 
 .nav-icon-wrap {
-  width: 44px;
-  height: 28px;
-  border-radius: 14px;
+  width: 56px; /* Larger pill */
+  height: 32px; /* Taller pill */
+  border-radius: 16px; /* More rounded */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -130,12 +131,12 @@ async function confirmLogout() {
 }
 
 .nav-icon-wrap ion-icon {
-  font-size: 22px;
+  font-size: 24px; /* Larger icon */
 }
 
 .nav-label {
-  font-size: 10px;
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 0.01em;
+  font-size: 11px; /* Slightly larger text */
+  font-weight: 600; /* Bolder text for better readability */
+  letter-spacing: 0.02em;
 }
 </style>

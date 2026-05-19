@@ -1,9 +1,7 @@
 import axios from 'axios'
-import { useAuthStore } from '@/store/auth.store'
-import router from '@/router'
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_BASE_URL || '',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json'
@@ -27,9 +25,10 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      const authStore = useAuthStore()
-      authStore.clearAuth()
-      router.replace('/login')
+      // Clear localStorage directly to avoid circular dependency with authStore
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('user')
+      window.location.href = '/login'
     }
     return Promise.reject(error)
   }

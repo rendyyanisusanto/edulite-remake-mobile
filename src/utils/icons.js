@@ -9,11 +9,16 @@ import {
   eyeOutline, eyeOffOutline, schoolOutline, personCircleOutline, folderOpenOutline,
   person, home, chevronDownCircleOutline, layersOutline, logInOutline,
   logIn, logOut, checkmarkCircle, warning, location, refresh, time,
-  documentText, addCircle, chevronForward
+  documentText, addCircle, chevronForward, searchOutline, funnel, arrowBack,
+  closeCircleOutline, downloadOutline, paperPlaneOutline, createOutline,
+  megaphoneOutline, footballOutline
 } from 'ionicons/icons';
 
 // Map specific kebap-case names used in the app to their imported objects
 addIcons({
+  'search-outline': searchOutline,
+  'funnel': funnel,
+  'arrow-back': arrowBack,
   'grid-outline': gridOutline,
   'people-outline': peopleOutline,
   'alert-circle-outline': alertCircleOutline,
@@ -56,5 +61,11 @@ addIcons({
   'time': time,
   'document-text': documentText,
   'add-circle': addCircle,
-  'chevron-forward': chevronForward
+  'chevron-forward': chevronForward,
+  'close-circle-outline': closeCircleOutline,
+  'download-outline': downloadOutline,
+  'paper-plane-outline': paperPlaneOutline,
+  'create-outline': createOutline,
+  'megaphone-outline': megaphoneOutline,
+  'football-outline': footballOutline
 });

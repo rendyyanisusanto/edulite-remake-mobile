@@ -94,31 +94,31 @@ const goToAttendance = () => {
 
 /* --- Dynamic Global Card States --- */
 .state-idle {
-  background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
-  border: 1px solid rgba(239, 68, 68, 0.15); /* Soft Red Border */
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.05); /* Softer Red Shadow */
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 16px rgba(148, 163, 184, 0.04);
 }
-.state-idle .status-pill { background: rgba(239, 68, 68, 0.1); color: #b91c1c; }
-.state-idle .status-dot { background: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
-.state-idle .t-label { background: rgba(239, 68, 68, 0.08); color: #dc2626; box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1) inset; }
+.state-idle .status-pill { background: rgba(148, 163, 184, 0.15); color: #475569; }
+.state-idle .status-dot { background: #94a3b8; box-shadow: 0 0 6px rgba(148, 163, 184, 0.4); }
+.state-idle .t-label { background: rgba(148, 163, 184, 0.1); color: #64748b; box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.2) inset; }
 
 .state-working {
-  background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.05);
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.08);
 }
-.state-working .status-pill { background: rgba(245, 158, 11, 0.15); color: #b45309; }
-.state-working .status-dot { background: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
-.state-working .t-label { background: rgba(245, 158, 11, 0.12); color: #d97706; box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.15) inset; }
+.state-working .status-pill { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
+.state-working .status-dot { background: #3b82f6; box-shadow: 0 0 6px rgba(59, 130, 246, 0.5); }
+.state-working .t-label { background: rgba(59, 130, 246, 0.1); color: #3b82f6; box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2) inset; }
 
 .state-done {
-  background: linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%);
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.05);
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.08);
 }
-.state-done .status-pill { background: rgba(16, 185, 129, 0.15); color: #047857; }
-.state-done .status-dot { background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
-.state-done .t-label { background: rgba(16, 185, 129, 0.1); color: #059669; box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.15) inset; }
+.state-done .status-pill { background: rgba(16, 185, 129, 0.15); color: #059669; }
+.state-done .status-dot { background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.5); }
+.state-done .t-label { background: rgba(16, 185, 129, 0.1); color: #10b981; box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2) inset; }
 
 /* --- Left Side Items --- */
 .card-left {
