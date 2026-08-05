@@ -54,9 +54,19 @@ const routes = [
         component: () => import('@/views/violations/ViolationsPage.vue')
       },
       {
+        path: 'violations/:id',
+        name: 'ViolationDetail',
+        component: () => import('@/views/violations/ViolationDetailPage.vue')
+      },
+      {
         path: 'positive-behaviour',
         name: 'PositiveBehaviour',
         component: () => import('@/views/positive-behaviour/PositiveBehaviourPage.vue')
+      },
+      {
+        path: 'positive-behaviour/:id',
+        name: 'PositiveBehaviourDetail',
+        component: () => import('@/views/positive-behaviour/PositiveBehaviourDetailPage.vue')
       },
       {
         path: 'counseling',

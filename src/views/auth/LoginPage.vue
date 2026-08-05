@@ -21,22 +21,21 @@
           </div>
 
           <form class="login-form" @submit.prevent="handleLogin">
-            <!-- Email field -->
+            <!-- Username field -->
             <div class="form-group">
-              <label class="form-label">Email</label>
-              <div class="input-wrap" :class="{ 'input-wrap--error': errors.email }">
-                <ion-icon name="mail-outline" class="input-icon" />
+              <label class="form-label">Username</label>
+              <div class="input-wrap" :class="{ 'input-wrap--error': errors.username }">
+                <ion-icon name="person-outline" class="input-icon" />
                 <input
-                  v-model="form.email"
-                  type="email"
+                  v-model="form.username"
+                  type="text"
                   class="form-input"
-                  placeholder="nama@sekolah.sch.id"
-                  autocomplete="email"
-                  inputmode="email"
-                  @blur="validateEmail"
+                  placeholder="Masukkan username"
+                  autocomplete="username"
+                  @blur="validateUsername"
                 />
               </div>
-              <span v-if="errors.email" class="form-error">{{ errors.email }}</span>
+              <span v-if="errors.username" class="form-error">{{ errors.username }}</span>
             </div>
 
             <!-- Password field -->
@@ -102,20 +101,18 @@ const router = useRouter()
 const authStore = useAuthStore()
 const appStore = useAppStore()
 
-const form = ref({ email: '', password: '' })
+const form = ref({ username: '', password: '' })
 const showPassword = ref(false)
-const errors = ref({ email: '', password: '' })
+const errors = ref({ username: '', password: '' })
 
 const currentYear = computed(() => new Date().getFullYear())
 
-function validateEmail() {
-  if (!form.value.email) {
-    errors.value.email = 'Email wajib diisi'
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
-    errors.value.email = 'Format email tidak valid'
-  } else {
-    errors.value.email = ''
+function validateUsername() {
+  if (!form.value.username?.trim()) {
+    errors.value.username = 'Username wajib diisi'
+    return
   }
+  errors.value.username = ''
 }
 
 function validatePassword() {
@@ -129,12 +126,12 @@ function validatePassword() {
 }
 
 async function handleLogin() {
-  validateEmail()
+  validateUsername()
   validatePassword()
-  if (errors.value.email || errors.value.password) return
+  if (errors.value.username || errors.value.password) return
 
   const result = await authStore.login({
-    email: form.value.email,
+    username: form.value.username,
     password: form.value.password
   })
 
